@@ -146,6 +146,15 @@ bob <- read_csv('https://www.dropbox.com/s/mozqpceit51hia7/bob_ross.csv?dl=1')
 # what is the most common income bracket for each religion?
 
 
+ri %>% 
+  pivot_longer(
+    cols = !religion,
+    names_to = 'income_bracket',
+    values_to = 'household_count'
+  ) %>% 
+  group_by(religion) %>% 
+  slice_max(household_count)
+
 
 
 # IMPORTANT: Notice how EASY it is to find the top income for each religion because
@@ -163,6 +172,59 @@ ri %>%
 
 
 
+
+bnames %>% 
+  select(year) %>% 
+  summary()
+
+bnames %>% 
+  pivot_wider(
+    names_from = year,
+    values_from = n
+  )
+
+really_wide <- bnames %>% 
+  pivot_wider(
+    names_from = c(year, sex),
+    values_from = n
+  )
+
+really_wide %>% 
+  pivot_longer(
+    cols = !name,
+    names_to = c('year', 'sex'),
+    names_sep = '_'
+  )
+
+
+bob_long <- bob %>% 
+  pivot_longer(
+    cols = !1:4,
+    names_to = 'object',
+    values_to = 'is_present'
+  )
+
+
+bob_long %>% 
+  group_by(object) %>% 
+  summarize(object_count = sum(is_present)) %>% 
+  arrange(desc(object_count))
+
+
+bob_long %>% 
+  # filter(str_detect(object, 'mountain'), is_present == 1) %>% 
+  group_by(season) %>% 
+  summarize(mtn_count = sum(is_present == 1 & str_detect(object, 'mountain')))
+
+
+bob_long %>% 
+  select(season, object, is_present) %>% 
+  group_by(season, object) %>% 
+  summarize(count = sum(is_present == 1)) %>% 
+  pivot_wider(
+    names_from = season,
+    values_from = count
+  )
 
 
 
