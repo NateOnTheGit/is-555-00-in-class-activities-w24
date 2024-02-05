@@ -68,6 +68,14 @@ penguins %>%
 # histogram with body_mass_g
 # add species as fill color, pay attention to position
 
+penguins %>% 
+  ggplot(aes(x = body_mass_g, color = species, fill = species)) +
+  geom_histogram(alpha = .5, position = 'identity', bins = 15) +
+  theme_bw() +
+  labs(title = 'This is the title',
+       x = 'Penguin Weight',
+       y = 'Count')
+
 
 
 # density curves are sometimes nicer. Let's do the above but with 
@@ -100,9 +108,15 @@ penguins %>%
 
 # Numeric + numeric
 
-# The classic scatter
+# The classic scatter - bill_length, bill_depth
 # Important: attributes vs aesthetics. Inheritance
 
+penguins %>% 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, color = species, shape = sex, size = body_mass_g)) +
+  geom_point() +
+  theme_minimal() +
+  labs()
+  
 
 
 
